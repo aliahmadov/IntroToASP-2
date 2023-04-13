@@ -1,0 +1,23 @@
+﻿@model Intro_Task.Model.DisplayMealViewModel
+
+<!DOCTYPE html>
+
+<html>
+
+
+<head>
+
+</head>
+
+
+<body>
+	<h1>Categories</h1>
+	<p style="color:red;">/home/getmeal/{category}</p>
+	<ul class="list-group list-group-flush">
+		@foreach (var item in Model.Categories)
+		{
+			<li class="list-group-item">@item</li>
+		}
+	</ul>
+</body>
+</html>

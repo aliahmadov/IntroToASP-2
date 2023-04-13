@@ -1,0 +1,31 @@
+﻿@model Intro_Task.Model.DisplayMealViewModel
+
+
+
+<!DOCTYPE html>
+
+<html>
+
+
+<head>
+	<title>Meals</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+
+
+<body>
+
+
+
+	@foreach (var item in Model.Meals)
+	{
+		<div class="card" style="width: 18rem;">
+			<img class="card-img-top" src="@item.Thumb" alt="Card image cap">
+			<div class="card-body">
+				<h5 class="card-title">@item.Name</h5>
+				<p class="card-text">@item.Id</p>
+			</div>
+		</div>
+	}
+</body>
+</html>
