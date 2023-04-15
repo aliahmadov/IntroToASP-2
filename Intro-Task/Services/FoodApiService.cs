@@ -1,5 +1,7 @@
 ﻿using Intro_Task.Entities;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -36,14 +38,18 @@ namespace Intro_Task.Services
                     for (int i = 0; i < 10; i++)
                     {
 
-                        var meal = new Meal
+                        if (i < Data.meals.Count)
                         {
-                            Id=Data.meals[i].idMeal,
-                            Name=Data.meals[i].strMeal,
-                            Thumb=Data.meals[i].strMealThumb
-                        };
+                            var meal = new Meal
+                            {
+                                Id = Data.meals[i].idMeal,
+                                Name = Data.meals[i].strMeal,
+                                Thumb = Data.meals[i].strMealThumb
+                            };
 
-                        meals.Add(meal);    
+                            meals.Add(meal);
+                        }
+                        else break;
                     }
                     return meals;
                 }
@@ -105,6 +111,83 @@ namespace Intro_Task.Services
             }
         }
 
+
+        public async static Task<Meal> GetFoodDetails(string foodname)
+        {
+
+            var client = new HttpClient();
+            string encodedFoodName = Uri.EscapeUriString(foodname);
+            string url = $@"https://www.themealdb.com/api/json/v1/1/search.php?s={encodedFoodName}";
+
+            var requestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(url)
+            };
+
+            using (var response = await client.SendAsync(requestMessage))
+            {
+                try
+                {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    Data = JsonConvert.DeserializeObject(responseBody);
+                    
+
+                    var meal = new Meal();
+                    if (Data.meals.Count > 0)
+                    {
+                        var info = Data.meals[0];
+
+                        meal.Id = info.idMeal;
+                        meal.Category = info.strCategory;
+                        meal.Name = info.strMeal;
+                        meal.Region = info.strArea;
+                        meal.Thumb = info.strMealThumb;
+                        meal.Instructions = info.strInstructions;
+                        meal.Tag = info.strTags;
+
+                        string str = info.strYoutube;
+                        var index = str.IndexOf('=');
+                        var substring=str.Substring(index+1,str.Length-index-1);
+                        meal.VideoId=substring;
+
+
+                        JObject json = JObject.Parse(responseBody);
+                        JArray meals = (JArray)json["meals"];
+
+                        foreach (JObject item in meals)
+                        {
+
+                            var a = item.Properties();
+
+                            foreach (var property in item.Properties())
+                            {
+                                if (property.Name.StartsWith("strIngredient") && property.Value.ToString() != "" && property.Value != null)
+                                {
+                                    var value = property.Value;
+                                    meal.Ingredients.Add(value.ToString());
+                                }
+
+                                if (property.Name.StartsWith("strMeasure"))
+                                {
+                                    meal.Measures.Add(property.Value.ToString());
+                                }
+
+                            }
+                        }
+
+
+                    }
+                    return meal;
+                }
+                catch (Exception)
+                {
+
+                    return null;
+                }
+
+            }
+        }
 
     }
 }

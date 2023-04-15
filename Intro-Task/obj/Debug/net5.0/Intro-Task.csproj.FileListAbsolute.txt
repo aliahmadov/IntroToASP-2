@@ -33,3 +33,6 @@ C:\Users\eliah\source\repos\Intro-Task\Intro-Task\obj\Debug\net5.0\ref\Intro-Tas
 C:\Users\eliah\source\repos\Intro-Task\Intro-Task\obj\Debug\net5.0\Intro-Task.csproj.CopyComplete
 C:\Users\eliah\source\repos\Intro-Task\Intro-Task\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\Users\eliah\source\repos\Intro-Task\Intro-Task\obj\Debug\net5.0\Razor\Views\Home\GetMeal.cshtml.g.cs
+C:\Users\eliah\source\repos\Intro-Task\Intro-Task\obj\Debug\net5.0\Razor\Views\Home\GetDetailedFood.cshtml.g.cs
+C:\Users\eliah\source\repos\Intro-Task\Intro-Task\obj\Debug\net5.0\Razor\Views\Home\AddMeal.cshtml.g.cs
+C:\Users\eliah\source\repos\Intro-Task\Intro-Task\bin\Debug\net5.0\buttons.json

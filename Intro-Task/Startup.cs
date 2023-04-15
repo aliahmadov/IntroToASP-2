@@ -50,7 +50,7 @@ namespace Intro_Task
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{ctg?}");
+                    pattern: "{controller=Home}/{action=Index}/{str?}");
             });
         }
     }
